@@ -10,7 +10,8 @@
 // 10/26/17 (MR) created.
 // 10/17/17 (MR) add proper layout management:
 
-import java.awt.FlowLayout; // for Layout
+import java.awt.BorderLayout; // for Layout
+import java.awt.GridLayout;
 import java.awt.Container; 
 import java.awt.event.ActionListener; // to handle events
 import java.awt.event.ActionEvent; // to create event objects
@@ -34,16 +35,23 @@ public class MilesPerGallonCalc extends JFrame {
     private final JButton calcButton;
     private final JButton clearButton;
     private final JButton exitButton;
-    private final FlowLayout layout;
-    private final Container container;
+    // private final GridLayout labelsLayout;
+    // private final GridLayout textFieldsLayout;
+    // private final GridLayout buttonsLayout;
+    private final JPanel labelJPanel;
+    private final JPanel textFieldJPanel;
+    private final JPanel buttonsJPanel;
 
     public MilesPerGallonCalc() {
         super("Miles per Gallon Calculator");
 
-        // set up layout:
-        layout = new FlowLayout();
-        container = getContentPane();
-        setLayout(layout);
+        // set layouts on JPanels because JPanels are containers:
+        labelJPanel = new JPanel();
+        labelJPanel.setLayout(new GridLayout(3,1));
+        textFieldJPanel = new JPanel();
+        textFieldJPanel.setLayout(new GridLayout(3,1));
+        buttonsJPanel = new JPanel();
+        buttonsJPanel.setLayout(new GridLayout(1,3));
 
         // **************
         // CREATE LABELS:
@@ -56,8 +64,8 @@ public class MilesPerGallonCalc extends JFrame {
         // ******************
         // CREATE TEXTFIELDS:
         // ******************
-        gallonsTextField = new JTextField("enter gallons burned here", 10);
-        milesTextField = new JTextField("enter miles traveled here", 10);
+        gallonsTextField = new JTextField("enter gallons burned", 20);
+        milesTextField = new JTextField("enter miles traveled", 20);
 
         // ***************
         // CREATE BUTTONS:
@@ -67,18 +75,22 @@ public class MilesPerGallonCalc extends JFrame {
         exitButton = new JButton("Exit");
 
         // **********************
-        // ADD OBJECTS TO JFrame:
+        // ADD OBJECTS TO PANELS:
         // **********************
-        add(gallonsLabel);
-        add(gallonsTextField);
-        add(milesLabel);
-        add(milesTextField);
-        add(milesPerGallonLabel);
-        add(resultLabel);
-        add(calcButton);
-        add(clearButton);
-        add(exitButton);
-        layout.setAlignment(FlowLayout.LEFT);
+        labelJPanel.add(gallonsLabel);
+        textFieldJPanel.add(gallonsTextField);
+        labelJPanel.add(milesLabel);
+        textFieldJPanel.add(milesTextField);
+        labelJPanel.add(milesPerGallonLabel);
+        textFieldJPanel.add(resultLabel);
+        buttonsJPanel.add(calcButton);
+        buttonsJPanel.add(clearButton);
+        buttonsJPanel.add(exitButton);
+
+        // ADD PANELS TO FRAME:
+        add(labelJPanel, BorderLayout.WEST);
+        add(textFieldJPanel, BorderLayout.EAST);
+        add(buttonsJPanel, BorderLayout.SOUTH);
 
         // ******************
         // REGISTER HANDLERS:
@@ -146,7 +158,7 @@ public class MilesPerGallonCalc extends JFrame {
         MilesPerGallonCalc calculator = new MilesPerGallonCalc();
         // set preferences:
         calculator.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        calculator.setSize(1200, 150);
+        calculator.setSize(450, 150);
         calculator.setVisible(true);
     }
 }
